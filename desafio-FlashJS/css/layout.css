@@ -1,0 +1,187 @@
+.d-flex {
+    display: flex;
+}
+
+.flex-x-center-y-center {
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+
+.flex-row {
+    flex-direction: row;
+}
+
+.flex-y-start {
+    align-items: start;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+/* O menu foi definido fixo, para que
+futuramente se houver mais elementos na tela
+possa fazer scroll no conteudo e manter o menu
+sempre fixo */
+body nav {
+    width: 300px;
+    min-width: 200px;
+    height: 100%;
+    padding: 10px 0px;
+    border-right: 1px solid var(--borda);
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+body nav h4#user {
+    color: rgb(0, 0, 0);
+    text-align: center;
+    padding: 10px 0px;
+}
+
+body nav ul li {
+    list-style: none;
+}
+
+body nav ul li a {
+    color: black;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 10px 10px;
+    cursor: pointer;
+    border-left: 5px solid transparent;
+}
+
+body nav ul li a.active {
+    background-color: #000;
+    color: #fff;
+}
+
+body nav ul li a span {
+    margin-right: 5px;
+}
+
+.notification {
+    background-color: #fff;
+    border-radius: 5px;
+    z-index: 2;
+    position: fixed;
+    width: 300px;
+    height: 80px;
+    top: 15px;
+    background: #fff;
+    display: flex;
+    flex-direction: row;
+    color: #fff;
+    display: none;
+}
+.notification.success {
+    background-color: #2e8500;
+}
+.notification.error {
+    background-color: #e02200;
+}
+.notification.info {
+    background-color: #0077b8;
+}
+.notification .image,
+.notification .text,
+.notification .close {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.notification .image {
+    flex: 30px;
+    font-size: 35px;
+}
+
+.notification.error span:after {
+    content: 'block';
+}
+
+.notification.info span:after {
+    content: 'error';
+}
+
+.notification.success span:after {
+    content: 'done';
+}
+
+.notification .text {
+    padding: 10px;
+    font-weight: bold;
+    font-size: 0.7em;
+    color: #fff;
+    flex: 8;
+}
+
+.notification .close {
+    font-size: 1em;
+    color: #fff;
+    flex: 2;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.notification .close:hover {
+    background-color: rgba(0, 0, 0, 0.06);
+}
+
+.notification.show {
+    display: flex;
+}
+
+.valida-erro {
+    color: red;
+    font-size: 12px;
+    margin-bottom: 10px;
+    animation: shake 0.7s cubic-bezier(.36, .07, .19, .97) both;
+    transform: translate3d(0, 0, 0);
+}
+
+.input-error {
+    border: none !important;
+    outline: 2px solid red !important;
+    outline-offset: -2px !important;
+}
+.invalid {
+    opacity: 0.3 !important;
+    cursor: not-allowed !important;
+}
+
+input:disabled {
+    cursor: not-allowed !important;
+    color: rgba(0, 0, 0, 0.5) !important;
+}
+
+
+@keyframes shake {
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+
+    20%,
+    80% {
+        transform: translate3d(1px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-3px, 0, 0);
+    }
+
+    40%,
+    60% {
+        transform: translate3d(3px, 0, 0);
+    }
+}

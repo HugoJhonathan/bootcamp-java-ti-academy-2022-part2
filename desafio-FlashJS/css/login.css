@@ -1,0 +1,35 @@
+body main.login {
+    width:100%;
+    height: 100%;
+    margin:0;
+}
+body main section#login {
+    width: 300px;
+    max-width: 100%;
+    border: 1px solid var(--borda);
+    padding: 10px;
+}
+
+body main section#login form input[type="text"],
+body main section#login form input[type="password"] {
+    border: 1px solid var(--borda);
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size:0.9em;
+}
+
+body main section#login form button[type="submit"] {
+    border: none;
+    background-color: #41a0ef;
+    font-size:1em;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    height: 50px;
+}
+
+body main section#login form button[type="submit"] img {
+    height: 25px;
+}

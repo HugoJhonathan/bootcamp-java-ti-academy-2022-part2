@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel - FlashJS</title>
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://fonts.sandbox.google.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" type="module"></script>
+    <script src="js/pagePedidos.js" type="module"></script>
+</head>
+
+<body>
+
+    <nav>
+        <ul class="d-flex flex-column">
+            <li>
+                <a href="#clientes" class="link">
+                    <span class="material-symbols-outlined">group_add</span>Clientes
+                </a>
+            </li>
+            <li>
+                <a href="#produtos" class="link">
+                    <span class="material-symbols-outlined">card_giftcard</span>Produtos
+                </a>
+            </li>
+            <li>
+                <a href="#pedidos" class="link">
+                    <span class="material-symbols-outlined">shopping_cart</span>Pedidos
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+
+    <main class="section-itens">
+
+        <section class="box-form" id="clientes">
+            <div class="title d-flex space-between flex-y-start">
+                <h1>Clientes</h1>
+                <span>X</span>
+            </div>
+
+            <form class="d-flex flex-column">
+                <label for="codigoCliente">Código</label>
+                <input type="text" name="codCliente" id="codigoCliente" disabled>
+                <label for="nomeCliente">Nome</label>
+                <input type="text" name="nomeCliente" data-txt="Nome" id="nomeCliente" autocomplete="off" disabled>
+                <label for="dataCadastroCliente">Data Cadastro</label>
+                <input type="date" name="dataCadCli" id="dataCadastroCliente" disabled>
+
+                <div class="buttons">
+                    <div class="voltarEavancar d-flex">
+                        <button type="button" class="btn-arow btnVoltar"> < </button>
+                        <button type="button" class="btn-arow btnAvancar"> > </button>
+                    </div>
+
+                    <div class="novoEsalvar d-flex">
+                        <button type="button" class="btnNovo">Novo</button>
+                        <button type="submit" class="btnSalvar">Salvar</button>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+
+
+        <section class="box-form" id="produtos">
+            <div class="title d-flex space-between flex-y-start">
+                <h1>Produtos</h1>
+                <span>X</span>
+            </div>
+
+            <form class="d-flex flex-column">
+                <label for="codigoProduto">Código</label>
+                <input type="text" name="codProduto" id="codigoProduto" disabled>
+                <label for="descricaoProduto">Descrição</label>
+                <input type="text" name="descProduto" data-txt="descrição" id="descricaoProduto" autocomplete="off" disabled>
+                <label for="precoProduto">Preco</label>
+                <input type="number" step="any" name="precoProduto" data-txt="preço" id="precoProduto" autocomplete="off" disabled>
+                <label for="quantidadeProduto">Quantidade</label>
+                <input type="number" name="qtdEstoqueProd" data-txt="quantidade" id="quantidadeProduto" autocomplete="off" disabled>
+
+                <div class="buttons">
+                    <div class="voltarEavancar d-flex">
+                        <button type="button" class="btn-arow btnVoltar"> < </button>
+                        <button type="button" class="btn-arow btnAvancar"> > </button>
+                    </div>
+
+                    <div class="novoEsalvar d-flex">
+                        <button type="button" class="btnNovo">Novo</button>
+                        <button type="submit" class=" btnSalvar">Salvar</button>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+
+
+        <section class="box-form" id="pedidos">
+            <div class="title d-flex space-between flex-y-start">
+                <h1>Pedidos</h1>
+                <span>X</span>
+            </div>
+
+            <form class="d-flex flex-column" id="formPedidos">
+                <label for="codigoCliente">Código do Cliente</label>
+                <input type="text" name="codCliente" data-txt="Cod Cliente" class="codigoCliente" autocomplete="off" autofocus>
+                <label for="nomeCliente">Cliente</label>
+                <input type="text" name="nomeCliente" placeholder="" class="nomeCliente" disabled>
+
+                <h3>Localizar Pedido</h3>
+                <div class="box-form-pedido">
+                    <input type="text" name="codProduto" id="codProduto" autocomplete="off" data-txt="cod Produto" placeholder="cod">
+                    <input type="text" name="descProduto" id="descricao" placeholder="descrição" disabled>
+                    <input type="number" name="precoProduto" id="valor" placeholder="preço" disabled>
+                    <input type="number" name="quantidadeProduto" id="quantidade" data-txt="qtd" placeholder="qtd" autocomplete="off">
+                    <input type="submit" value="Lançar no Pedido">
+                </div>
+            </form>
+
+            <h3>Itens do Pedido</h3>
+            <table class="table-pedido">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th>Descrição</th>
+                        <th>Preço</th>
+                        <th>Qtd</th>
+                        <th>Sub Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+
+            <div id="total">
+                <span>R$ 0,00</span>
+            </div>
+        </section>
+
+
+
+    </main>
+</body>
+
+</html>

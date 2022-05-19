@@ -1,0 +1,128 @@
+body main section.box-form#pedidos {
+    max-width: 900px;
+}
+body main section#pedidos .box-form-pedido {
+    background-color: #ecf0f4;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 5px;
+    padding: 6px;
+    margin: 10px 0px;
+}
+
+body main section#pedidos .box-form-pedido input {
+    width: 100%;
+    margin: 0px;
+    background-color: #fff;
+}
+
+body main section#pedidos .box-form-pedido input[name="codProduto"] {
+    flex: 1;
+}
+
+body main section#pedidos .box-form-pedido input[name="descProduto"] {
+    flex: 5;
+}
+
+body main section#pedidos .box-form-pedido input[name="precoProduto"] {
+    flex: 2;
+}
+
+body main section#pedidos .box-form-pedido input[name="quantidadeProduto"] {
+    flex: 2;
+}
+
+body main section#pedidos .box-form-pedido input[type="submit"] {
+    flex: 4;
+    background-color: #000;
+    color: #fff;
+    cursor: pointer;
+}
+
+body main section#pedidos h3 {
+    color: #0077b8;
+    border-top: 1px solid #222;
+
+}
+
+body main section#pedidos .table-pedido {
+    width: 100%;
+    background-color: #f1f1f1;
+    border-spacing: 0px;
+    margin-top: 10px;
+
+}
+
+body main section#pedidos .table-pedido td {
+    padding: 10px 0px;
+}
+
+body main section#pedidos .table-pedido:last-child {
+    padding: 0px;
+    padding: 8px 0px;
+}
+
+body main section#pedidos .table-pedido th:nth-child(1) {
+    width: 100px;
+}
+
+body main section#pedidos .table-pedido th:nth-child(3) {
+
+    width: 150px;
+}
+
+body main section#pedidos .table-pedido th:nth-child(4) {
+
+    width: 80px;
+}
+
+body main section#pedidos .table-pedido th:nth-child(5) {
+    width: 150px;
+}
+
+body main section#pedidos .table-pedido th:nth-child(6) {
+    width: 24px;
+}
+
+body main section#pedidos .table-pedido th {
+    text-align: left;
+    padding: 5px 0px;
+}
+
+body main section#pedidos .table-pedido tr .btn-delete {
+    cursor: pointer;
+    background-color: transparent !important;
+    color: red;
+}
+
+body main section#pedidos .table-pedido tr:nth-child(even) {
+    background-color: #f8f8f8;
+}
+
+body main section#pedidos .table-pedido tr.tr-marcada {
+    background-color: rgb(255, 80, 80) !important;
+    color: #fff !important;
+}
+
+body main section#pedidos .table-pedido tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+body main section#pedidos #total {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding: 10px 0px;
+}
+
+body main section#pedidos #total span {
+    background-color: #c4ccd0;
+    color: red;
+    padding: 5px;
+    font-weight: bold;
+}
+
+body main section#pedidos #formPedidos .box-form-pedido input {
+    font-size: 1em;
+}
