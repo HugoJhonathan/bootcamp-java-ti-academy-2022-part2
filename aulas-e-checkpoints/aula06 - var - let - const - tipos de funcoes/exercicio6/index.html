@@ -1,0 +1,37 @@
+<!-- 1. Crie um algorítimo que ao carregar a página seja solicitado o 
+nome do usuário. Em seguida a sua idade. 
+
+- O programa deverá “imprimir” na página o nome do usuário, sua idade 
+e  informando se ele possui idade igual, maior ou menor de 18 anos. -->
+
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script>
+    var nome = prompt("Insira seu nome:");
+    var idade = Number(prompt("Qual sua idade?"));
+
+    document.write(`Nome de usuário...: ${nome}<br>`);
+    document.write(`Idade do usuário..: ${idade}.`);
+
+    if (idade > 18) {
+        document.write(` Você tem idade maior que 18 anos.`);
+    } else if (idade === 18) {
+        document.write(` Você tem idade igual a 18 anos.`);
+    } else {
+        document.write(` Você tem idade menor que 18 anos.`);
+    }
+</script>
+
+<body>
+
+</body>
+
+</html>

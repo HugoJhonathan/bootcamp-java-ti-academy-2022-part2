@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BUSCAR CEP - Fetch</title>
+</head>
+<script>
+    window.onload = function() {
+
+
+
+        let dadosCep = async function(cep) {
+
+            let url = `https://viacep.com.br/ws/${cep}/json/`;
+            try { // tente fazer isto
+                let dadosFetch = await fetch(url); // response
+                let dadosJson = await dadosFetch.json(); // json do dadosFetch
+                resultadoCep(dadosJson); // envia o json para outra função
+            } catch (error) { // se der erro:
+
+                alert(error);
+            }
+
+
+        }
+
+        function resultadoCep(dadosCep) {
+
+            for (let campo in dadosCep) {
+                // campo = logradouro, rua, bairro, etc....
+                if (document.querySelector(`#${campo}`)) {
+                    document.querySelector(`#${campo}`).value = dadosCep[campo];
+                }
+
+            }
+
+
+        }
+
+
+        const btnBuscar = document.querySelector("#buscarCep");
+        const CEP_ = document.querySelector("#NumeroCep");
+
+        btnBuscar.addEventListener('click', function() {
+
+            dadosCep(CEP_.value);
+
+        })
+
+
+    }
+</script>
+
+<body>
+
+    <input type="text" name="" placeholder="Digite um CEP válido" id="NumeroCep">
+    <input type="text" name="" id="logradouro">
+    <input type="button" name="buscar" id="buscarCep" value="BUSCAR">
+
+</body>
+
+</html>
