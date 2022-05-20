@@ -22,6 +22,9 @@
 .space-between {
     justify-content: space-between;
 }
+.hide{
+    display: none;
+}
 
 /* O menu foi definido fixo, para que
 futuramente se houver mais elementos na tela

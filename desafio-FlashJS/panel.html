@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel - FlashJS</title>
     <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://fonts.sandbox.google.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet"
+        href="https://fonts.sandbox.google.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <link rel="stylesheet" href="style.css">
     <script src="script.js" type="module"></script>
     <script src="js/pagePedidos.js" type="module"></script>
@@ -78,11 +79,14 @@
                 <label for="codigoProduto">Código</label>
                 <input type="text" name="codProduto" id="codigoProduto" disabled>
                 <label for="descricaoProduto">Descrição</label>
-                <input type="text" name="descProduto" data-txt="descrição" id="descricaoProduto" autocomplete="off" disabled>
+                <input type="text" name="descProduto" data-txt="descrição" id="descricaoProduto" autocomplete="off"
+                    disabled>
                 <label for="precoProduto">Preco</label>
-                <input type="number" step="any" name="precoProduto" data-txt="preço" id="precoProduto" autocomplete="off" disabled>
+                <input type="number" step="any" name="precoProduto" data-txt="preço" id="precoProduto"
+                    autocomplete="off" disabled>
                 <label for="quantidadeProduto">Quantidade</label>
-                <input type="number" name="qtdEstoqueProd" data-txt="quantidade" id="quantidadeProduto" autocomplete="off" disabled>
+                <input type="number" name="qtdEstoqueProd" data-txt="quantidade" id="quantidadeProduto"
+                    autocomplete="off" disabled>
 
                 <div class="buttons">
                     <div class="voltarEavancar d-flex">
@@ -101,49 +105,100 @@
 
 
         <section class="box-form" id="pedidos">
-            <div class="title d-flex space-between flex-y-start">
-                <h1>Pedidos</h1>
-                <span>X</span>
-            </div>
-
-            <form class="d-flex flex-column" id="formPedidos">
-                <label for="codigoCliente">Código do Cliente</label>
-                <input type="text" name="codCliente" data-txt="Cod Cliente" class="codigoCliente" autocomplete="off" autofocus>
-                <label for="nomeCliente">Cliente</label>
-                <input type="text" name="nomeCliente" placeholder="" class="nomeCliente" disabled>
-
-                <h3>Localizar Pedido</h3>
-                <div class="box-form-pedido">
-                    <input type="text" name="codProduto" id="codProduto" autocomplete="off" data-txt="cod Produto" placeholder="cod">
-                    <input type="text" name="descProduto" id="descricao" placeholder="descrição" disabled>
-                    <input type="number" name="precoProduto" id="valor" placeholder="preço" disabled>
-                    <input type="number" name="quantidadeProduto" id="quantidade" data-txt="qtd" placeholder="qtd" autocomplete="off">
-                    <input type="submit" value="Lançar no Pedido">
+            <div id="pedidosCad">
+                <div class="title d-flex space-between flex-y-start">
+                    <h1>Pedidos</h1>
+                    <span>X</span>
                 </div>
-            </form>
 
-            <h3>Itens do Pedido</h3>
-            <table class="table-pedido">
-                <thead>
-                    <tr>
-                        <th>Item</th>
-                        <th>Descrição</th>
-                        <th>Preço</th>
-                        <th>Qtd</th>
-                        <th>Sub Total</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+                <form class="d-flex flex-column" id="formPedidos">
+                    <label for="codigoCliente">Código do Cliente</label>
+                    <input type="text" name="codCliente" data-txt="Cod Cliente" class="codigoCliente" autocomplete="off"
+                        autofocus>
+                    <label for="nomeCliente">Cliente</label>
+                    <input type="text" name="nomeCliente" placeholder="" class="nomeCliente" disabled>
 
+                    <h3>Localizar Pedido</h3>
+                    <div class="box-form-pedido">
+                        <input type="text" name="codProduto" id="codProduto" autocomplete="off" data-txt="cod Produto"
+                            placeholder="cod">
+                        <input type="text" name="descProduto" id="descricao" placeholder="descrição" disabled>
+                        <input type="number" name="precoProduto" id="valor" placeholder="preço" disabled>
+                        <input type="number" name="quantidadeProduto" id="quantidade" data-txt="qtd" placeholder="qtd"
+                            autocomplete="off">
+                        <input type="submit" value="Lançar no Pedido">
+                    </div>
+                </form>
 
-            <div id="total">
-                <span>R$ 0,00</span>
+               
+                <h3>Itens do Pedido</h3>
+                
+                <div id="itensDoPedido" class="hide">
+                    <table class="table-pedido">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Descrição</th>
+                                <th>Preço</th>
+                                <th>Qtd</th>
+                                <th>Sub Total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    <div class="d-flex space-between flex-x-center-y-center">
+                        <button id="salvarPedido" type="button">Salvar Pedido</button>
+                        <div id="total">
+                            <span>R$ 0,00</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="pedidosVazio">
+                    Vazio!
+                </div>
+                
             </div>
+
+
+
+            <div id="boxPedidosRealizados">
+                
+                <template>
+                    <div id="pedidosRealizados">
+                        <div class="title d-flex space-between flex-y-start ">
+                            <h4><!-- HORA | NOME CLIENTE --></h4>
+                            <span class="id"><!-- ID: ID --></span>
+                            <span class="material-symbols-outlined btn-delete">delete</span>
+                        </div>
+    
+                        <table class="table-pedido">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Descrição</th>
+                                    <th>Preço</th>
+                                    <th>Qtd</th>
+                                    <th>Sub Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Preencha dinamicamente -->
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4">TOTAL</td>
+                                    <td class="total"><!-- R$ 9.999,99 --></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </template>
+
+            </div> <!-- boxPedidosRealizados -->
+
+            
         </section>
-
-
 
     </main>
 </body>

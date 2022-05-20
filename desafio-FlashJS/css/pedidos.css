@@ -1,5 +1,13 @@
 body main section.box-form#pedidos {
     max-width: 900px;
+    border:none;
+    padding:0px;
+}
+body main section.box-form#pedidos #pedidosCad{
+    padding:20px;
+    border:1px solid var(--borda);
+    border-radius:5px;
+    margin-bottom:20px;
 }
 body main section#pedidos .box-form-pedido {
     background-color: #ecf0f4;
@@ -48,19 +56,12 @@ body main section#pedidos h3 {
 
 body main section#pedidos .table-pedido {
     width: 100%;
-    background-color: #f1f1f1;
     border-spacing: 0px;
     margin-top: 10px;
-
 }
 
-body main section#pedidos .table-pedido td {
-    padding: 10px 0px;
-}
-
-body main section#pedidos .table-pedido:last-child {
-    padding: 0px;
-    padding: 8px 0px;
+body main section#pedidos .table-pedido td, body main section#pedidos .table-pedido th {
+    padding: 10px;
 }
 
 body main section#pedidos .table-pedido th:nth-child(1) {
@@ -87,7 +88,7 @@ body main section#pedidos .table-pedido th:nth-child(6) {
 
 body main section#pedidos .table-pedido th {
     text-align: left;
-    padding: 5px 0px;
+    padding: 10px;
 }
 
 body main section#pedidos .table-pedido tr .btn-delete {
@@ -97,7 +98,7 @@ body main section#pedidos .table-pedido tr .btn-delete {
 }
 
 body main section#pedidos .table-pedido tr:nth-child(even) {
-    background-color: #f8f8f8;
+    /* background-color: #f8f8f8; */
 }
 
 body main section#pedidos .table-pedido tr.tr-marcada {
@@ -108,7 +109,15 @@ body main section#pedidos .table-pedido tr.tr-marcada {
 body main section#pedidos .table-pedido tr:nth-child(odd) {
     background-color: #fff;
 }
-
+body main section#pedidos #salvarPedido{
+    background-color: green;
+    padding: 8px 25px;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em
+}
 body main section#pedidos #total {
     display: flex;
     justify-content: end;
@@ -117,7 +126,7 @@ body main section#pedidos #total {
 }
 
 body main section#pedidos #total span {
-    background-color: #c4ccd0;
+    background-color: #f7f7f7;
     color: red;
     padding: 5px;
     font-weight: bold;
@@ -125,4 +134,49 @@ body main section#pedidos #total span {
 
 body main section#pedidos #formPedidos .box-form-pedido input {
     font-size: 1em;
+}
+
+body main section#pedidos #boxPedidosRealizados{
+    display: flex;
+    flex-direction: column-reverse;
+}
+body main section#pedidos #pedidosRealizados{
+    
+    border:1px solid var(--borda);
+    border-radius:5px;
+   
+    
+    margin-bottom:20px;
+}
+body main section#pedidos #pedidosRealizados .title{
+    padding-left:10px;
+    align-items: center;
+}
+body main section#pedidos #pedidosRealizados .btn-delete{
+    
+}
+body main section#pedidos #pedidosRealizados .id{
+    color:rgb(212, 212, 212);
+    font-size:12px;
+}
+body main section#pedidos #pedidosRealizados .table-pedido tfoot{
+    
+}
+body main section#pedidos #pedidosRealizados .table-pedido tfoot tr td:nth-child(1){
+    text-align: right;
+    font-weight: bold;
+    background-color: #f7f7f7;
+    border-radius:0px 0px 0px 5px;
+    border-top:1px solid var(--borda)
+    
+}
+body main section#pedidos #pedidosRealizados .table-pedido tfoot tr td:nth-child(2){
+    text-align: left;
+    font-weight: bold;
+    background-color: #f7f7f7;
+    border-radius:0px 0px 5px 0px;
+    border-top:1px solid var(--borda)
+}
+body main section#pedidos #pedidosVazio{
+    padding:15px 0px;
 }

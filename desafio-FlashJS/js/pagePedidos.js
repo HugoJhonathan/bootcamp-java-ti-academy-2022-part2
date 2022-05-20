@@ -7,12 +7,15 @@ const inputNomeCliente  = document.querySelector('#pedidos input[name="nomeClien
 const inputCodProduto   = document.querySelector('#pedidos input[name="codProduto"]')
 const inputDescProduto  = document.querySelector('.box-form-pedido input[name="descProduto"]')
 const inputPrecoProduto = document.querySelector('.box-form-pedido input[name="precoProduto"]')
+const inputQuantidade   = document.querySelector('#pedidos input[name="quantidadeProduto"]')
 const campos            = document.querySelectorAll('#formPedidos input')
 const tabela            = document.querySelector('.table-pedido tbody')
 const divTotal          = document.querySelector("#total span")
 const boxFormPedido     = document.querySelector('.box-form-pedido')
+const btnSalvarPedido   = document.querySelector('#salvarPedido')
 
 let pedidos = []
+let pedidosRealizados = []
 
 document.querySelector('#formPedidos').addEventListener('submit', e => {
     if (validaFormularios('formPedidos', e)) salvarPedido()
@@ -22,6 +25,8 @@ inputIdCliente.addEventListener('keyup', e => procurarNomeCliente(e))
 inputIdCliente.addEventListener('change', e => procurarNomeCliente(e))
 inputCodProduto.addEventListener('keyup', e => procurarProduto(e))
 inputCodProduto.addEventListener('change', e => procurarProduto(e))
+btnSalvarPedido.addEventListener('click', () => finalizarPedido())
+
 
 const procurarNomeCliente = e => {
     let nome = clientes.find(cliente => cliente.codCliente == e.target.value)
@@ -58,14 +63,15 @@ const salvarPedido = () => {
     }
 
     if (verificarEstoque(item)) {
-        document.querySelector('#pedidos input[name="quantidadeProduto"]').value = ''
-        document.querySelector('#pedidos input[name="quantidadeProduto"]').focus()
+        inputQuantidade.value = ''
+        inputQuantidade.focus()
         return alert('error', 'Não há esta quantidade em estoque!<br> Estoque disponível: ' + verificarEstoque(item))
     }
     // FIM VALIDAÇÕES
 
     pedidos.push(item)
     renderizaItens()
+    inputCodProduto.focus()
 
 }
 
@@ -100,6 +106,17 @@ const criaTr = (tabela, itens, id) => {
 }
 
 const renderizaItens = () => {
+
+    let divItensDoPedido = document.querySelector('#itensDoPedido')
+    let divPedidoVazio = document.querySelector('#pedidosVazio')
+    if(pedidos.length > 0){
+        divItensDoPedido.classList.remove('hide')
+        divPedidoVazio.classList.add('hide')
+    }else{
+        divItensDoPedido.classList.add('hide')
+        divPedidoVazio.classList.remove('hide')
+    }
+    
     tabela.innerHTML = ''
 
     // A cada laço do forEach, renderiza uma tr no tbody
@@ -129,11 +146,10 @@ const removerItem = id => {
 }
 
 const limparFormularioPedidos = () => {
-    document.querySelector('#formPedidos input[name="codProduto"]').value = ''
-    document.querySelector('#formPedidos input[name="descProduto"]').value = ''
-    document.querySelector('#formPedidos input[name="precoProduto"]').value = ''
-    document.querySelector('#formPedidos input[name="quantidadeProduto"]').value = ''
-    document.querySelector('#formPedidos input[name="codProduto"]').focus()
+    inputCodProduto.value = ''
+    inputDescProduto.value = ''
+    inputPrecoProduto.value = ''
+    inputQuantidade.value = ''
 }
 
 const moedaBrasileira = num => Number(num).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
@@ -146,4 +162,64 @@ const marcarUmItemNaTabela = item => {
     // Após ter marcado a tr, depois de 2seg remove a class
     setTimeout(() => tr.classList.remove('tr-marcada'), 2000);
 
+}
+
+// QUANDO PEDIDO FOR FINALIZADO
+const finalizarPedido = () => {
+    if (pedidos.length < 1) return alert('error', 'Crie um Pedido primeiro!')
+
+    let idUnico = new Date().getTime() * Math.random() * 100000
+    let date = new Date()
+    let total = pedidos.reduce((a, b) => a + Number(b.precoProduto * b.quantidadeProduto), 0)
+    let templatePedidosRealizados = document.querySelector('#boxPedidosRealizados template')
+    let clone = templatePedidosRealizados.content.cloneNode(true)
+
+    pedidos.forEach((pedido, index) => {
+        let trCriada = criaTabelaPedidosRealizados([
+            pedido.codProduto,
+            pedido.descProduto,
+            moedaBrasileira(pedido.precoProduto),
+            pedido.quantidadeProduto,
+            moedaBrasileira(pedido.precoProduto * pedido.quantidadeProduto)
+        ], idUnico)
+        clone.querySelector('tbody').append(trCriada)
+        clone.querySelector('h4').textContent = `${date.getHours()}:${date.getMinutes()}` + ' | ' + pedido.nomeCliente
+        // caso o usuario mude do cliente adicionando novos itens no pedidos, o pedido gerado será com o nome do ultimo
+        // cliente informado naquele pedido!
+    })
+    
+    clone.querySelector('span').textContent = 'PEDIDO: ' + idUnico
+    clone.querySelector('tfoot .total').textContent = moedaBrasileira(total)
+    clone.querySelector('.btn-delete').addEventListener('click', e => removerPedido(idUnico, e.target))
+
+    alert('success', 'Pedido salvo com sucesso!')
+    document.querySelector('#boxPedidosRealizados').append(clone)
+
+    pedidosRealizados.push({ itens: pedidos, id: idUnico, date: date })
+
+    pedidos = []
+    resetarPedidos()
+}
+
+const criaTabelaPedidosRealizados = (itens, id) => {
+    let tr = document.createElement('tr')
+    itens.forEach(item => {
+        let td = document.createElement('td')
+        td.textContent = item
+        tr.appendChild(td)
+    })
+    tr.setAttribute('data-id', id)
+    return tr
+}
+
+const resetarPedidos = () => {
+    document.querySelector('#formPedidos').reset()
+    inputIdCliente.focus()
+    renderizaItens()
+}
+
+const removerPedido = (id, button) => {
+    if (!window.confirm('Deseja realmente excluir este Pedido?')) return
+    button.parentElement.parentElement.remove()
+    pedidosRealizados = pedidosRealizados.filter(element => element.id != id)
 }
