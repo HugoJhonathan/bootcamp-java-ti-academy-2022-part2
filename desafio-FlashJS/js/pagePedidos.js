@@ -1,6 +1,7 @@
 import { clientes } from '../database/clientes.js'
 import { produtos } from '../database/produtos.js'
 import { validaFormularios, renderizaUmErro } from '../js/validacaoFormulario.js'
+import { atualizarQuantidadeNoMenu } from '../js/layout.js'
 
 const inputIdCliente    = document.querySelector('#pedidos input[name="codCliente"]')
 const inputNomeCliente  = document.querySelector('#pedidos input[name="nomeCliente"]')
@@ -116,7 +117,7 @@ const renderizaItens = () => {
         divItensDoPedido.classList.add('hide')
         divPedidoVazio.classList.remove('hide')
     }
-    
+
     tabela.innerHTML = ''
 
     // A cada laço do forEach, renderiza uma tr no tbody
@@ -199,6 +200,7 @@ const finalizarPedido = () => {
 
     pedidos = []
     resetarPedidos()
+    atualizarQuantidadeNoMenu('pedidos', pedidosRealizados.length)
 }
 
 const criaTabelaPedidosRealizados = (itens, id) => {
@@ -222,4 +224,5 @@ const removerPedido = (id, button) => {
     if (!window.confirm('Deseja realmente excluir este Pedido?')) return
     button.parentElement.parentElement.remove()
     pedidosRealizados = pedidosRealizados.filter(element => element.id != id)
+    atualizarQuantidadeNoMenu('pedidos', pedidosRealizados.length)
 }

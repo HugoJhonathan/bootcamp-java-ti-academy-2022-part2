@@ -1,5 +1,6 @@
 import { clientes } from '../database/clientes.js'
 import { validaFormularios } from '../js/validacaoFormulario.js'
+import { atualizarQuantidadeNoMenu } from '../js/layout.js'
 
 const inputDataCadCliente = document.querySelector('input[name="dataCadCli"]')
 const inputNomeCliente    = document.querySelector('input[name="nomeCliente"]')
@@ -55,10 +56,11 @@ const salvarNovoUsuario = () => {
 }
 
 export const preencherFormularioClientes = inicio => {
-    document.querySelector('#clientes h1').textContent = `Clientes (${clientes.length})`
     campos.forEach(element => element.value = clientes[inicio][element.name])
+
     clientesArow == 0 ? btnVoltar.classList.add('invalid') : btnVoltar.classList.remove('invalid')
     clientesArow == clientes.length - 1 ? btnAvancar.classList.add('invalid') : btnAvancar.classList.remove('invalid')
+    atualizarQuantidadeNoMenu('clientes', clientes.length)
 }
 
 const nextOrPrevious = acao => {

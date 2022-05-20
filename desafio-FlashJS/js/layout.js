@@ -49,3 +49,7 @@ const adicionarFocusNoInput = id => {
         }
     }
 }
+
+export const atualizarQuantidadeNoMenu = (aba, valor) => {
+    document.querySelector(`nav ul li a span.${aba}`).textContent = valor
+}

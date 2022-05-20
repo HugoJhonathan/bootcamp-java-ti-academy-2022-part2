@@ -1,5 +1,6 @@
 import { produtos } from '../database/produtos.js'
 import { validaFormularios } from '../js/validacaoFormulario.js'
+import { atualizarQuantidadeNoMenu } from '../js/layout.js'
 
 const inputDescricao  = document.querySelector('input[name="descProduto"]')
 const inputPreco      = document.querySelector('input[name="precoProduto"]')
@@ -65,11 +66,11 @@ const salvarNovoProduto = () => {
 }
 
 export const preencherFormularioProdutos = inicio => {
-    document.querySelector('#produtos h1').textContent = `Produtos (${produtos.length})`
     campos.forEach(element => element.value = produtos[inicio][element.name])
 
     produtosArow == 0 ? btnVoltar.classList.add('invalid') : btnVoltar.classList.remove('invalid')
     produtosArow == produtos.length-1 ? btnAvancar.classList.add('invalid') : btnAvancar.classList.remove('invalid')
+    atualizarQuantidadeNoMenu('produtos', produtos.length)
 }
 
 const nextOrPrevious = acao => {
