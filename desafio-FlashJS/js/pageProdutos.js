@@ -1,6 +1,9 @@
 import { produtos } from '../database/produtos.js'
 import { validaFormularios } from '../js/validacaoFormulario.js'
 import { atualizarQuantidadeNoMenu } from '../js/layout.js'
+import { moedaBrasileira } from './pagePedidos.js'
+
+atualizarQuantidadeNoMenu('produtos', produtos.length)
 
 const inputDescricao  = document.querySelector('input[name="descProduto"]')
 const inputPreco      = document.querySelector('input[name="precoProduto"]')
@@ -19,30 +22,18 @@ let criandoNovoProduto = false
 btnVoltar.addEventListener('click', () => nextOrPrevious('previous'))
 btnAvancar.addEventListener('click', () => nextOrPrevious('next'))
 btnNovo.addEventListener('click', () => criarNovoProduto())
-formProdutos.addEventListener('submit', e => {
-    if (validaFormularios('produtos', e)) salvarNovoProduto()
-})
+formProdutos.addEventListener('submit', e => { if (validaFormularios('produtos', e)) salvarNovoProduto()})
 
 const criarNovoProduto = () => {
-    produtosArow++
-   
-    inputDescricao.value = ''
-    inputPreco.value = ''
-    inputQuantidade.value = ''
-    inputDescricao.disabled = false
-    inputPreco.disabled = false
-    inputQuantidade.disabled = false
-    inputDescricao.focus()
-    
+    formularioModoCriacao()
+        
     let ultimoCodeProduto = produtos[produtos.length - 1].codProduto;
     inputCodProduto.value = ultimoCodeProduto + 1
-    btnSalvar.classList.add('valid')
-    criandoNovoProduto = true
 }
 
 const salvarNovoProduto = () => {
         
-    if (!criandoNovoProduto) return alert('error','Ops. Crie primeiro um novo Produto!')
+    if (!criandoNovoProduto) return alert('Ops. Crie primeiro um novo Produto!', 'error')
 
     let valor = {}
     campos.forEach(element => {
@@ -53,40 +44,57 @@ const salvarNovoProduto = () => {
     })
 
     produtos.push(valor)
-
-    produtosArow = 0
-    criandoNovoProduto = false
    
-    inputQuantidade.disabled = true
-    inputDescricao.disabled = true
-    inputPreco.disabled = true
-    alert('success','Produto cadastrado com sucesso!')
-    preencherFormularioProdutos(produtosArow)
-    btnSalvar.classList.remove('valid')
-}
-
-export const preencherFormularioProdutos = inicio => {
-    campos.forEach(element => element.value = produtos[inicio][element.name])
-
-    produtosArow == 0 ? btnVoltar.classList.add('invalid') : btnVoltar.classList.remove('invalid')
-    produtosArow == produtos.length-1 ? btnAvancar.classList.add('invalid') : btnAvancar.classList.remove('invalid')
+    produtosArow = 0
+    formularioModoExibicao()
     atualizarQuantidadeNoMenu('produtos', produtos.length)
+    alert('Produto cadastrado com sucesso!', 'success')
 }
 
 const nextOrPrevious = acao => {
-    if(criandoNovoProduto){  // caso estivesse criando um novo, e apertasse em alguma seta
-        criandoNovoProduto = false
-        inputDescricao.disabled = true
-        inputPreco.disabled = true
-        inputQuantidade.disabled = true
-    }
-    btnSalvar.classList.remove('valid')
+    if (produtosArow >= produtos.length - 1 && acao === 'next') return alert('Este é o último registro!', 'info')
+    if (produtosArow == 0 && acao === 'previous') return alert('Este é o primeiro registro!', 'info')
+    
     document.querySelectorAll('#produtos .input-error').forEach(input => input.classList.remove('input-error'))
     document.querySelectorAll('#produtos .valida-erro').forEach(input => input.remove())
     
-    if (produtosArow >= produtos.length - 1 && acao === 'next') return alert('info','Este é o último registro!')
-    if (produtosArow == 0 && acao === 'previous') return alert('info','Este é o primeiro registro!')
-
     acao === 'next' ? produtosArow++ : produtosArow--
-    preencherFormularioProdutos(produtosArow)
+    formularioModoExibicao()
+}
+
+const formularioModoCriacao = () => {
+    produtosArow = produtos.length
+    criandoNovoProduto = true
+    inputDescricao.value = ''
+    inputPreco.value = ''
+    inputQuantidade.value = ''
+    inputDescricao.disabled = false
+    inputPreco.disabled = false
+    inputQuantidade.disabled = false
+    inputPreco.setAttribute('type','number')
+    inputDescricao.focus()
+    btnSalvar.classList.add('valid')
+    comportamentoDosBotoesAvancarEVoltar()
+}
+
+export const formularioModoExibicao = (inicio = produtosArow) =>{
+    criandoNovoProduto = false
+    inputDescricao.disabled = true
+    inputPreco.disabled = true
+    inputPreco.setAttribute('type','text')
+    inputQuantidade.disabled = true
+    btnSalvar.classList.remove('valid')
+
+    campos.forEach(element => {
+        if(element.name == 'precoProduto'){
+            return element.value = moedaBrasileira(produtos[inicio][element.name])
+        }
+        element.value = produtos[inicio][element.name]        
+    })
+    comportamentoDosBotoesAvancarEVoltar()
+}
+
+const comportamentoDosBotoesAvancarEVoltar = () =>{
+    produtosArow == 0 ? btnVoltar.classList.add('invalid') : btnVoltar.classList.remove('invalid')
+    produtosArow >= produtos.length-1 ? btnAvancar.classList.add('invalid') : btnAvancar.classList.remove('invalid')
 }

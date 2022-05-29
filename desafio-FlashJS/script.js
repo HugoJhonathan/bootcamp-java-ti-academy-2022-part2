@@ -1,12 +1,13 @@
-import { preencherFormularioClientes } from './js/pageClientes.js'
-import { preencherFormularioProdutos } from './js/pageProdutos.js'
+import { formularioModoExibicao } from './js/pageClientes.js'
+import { formularioModoExibicao as formularioModoExibicaoProdutos } from './js/pageProdutos.js'
 import { layout } from './js/layout.js'
 
 layout()
-preencherFormularioClientes(0)
-preencherFormularioProdutos(0)
+formularioModoExibicao() // inicia o formulario modo exibição, no primeiro registro, index 0
+formularioModoExibicaoProdutos()
 
-window.alert = (type, msg) => {
+
+window.alert = (msg, type = 'info') => {
     document.querySelectorAll('.notification').forEach(element => {
         element.remove()
     })
@@ -32,6 +33,3 @@ window.alert = (type, msg) => {
         divNotification.remove()
     }, 3000); 
 }
-
-
-

@@ -12,6 +12,5 @@ export const produtos = [
           "precoProduto" : 3.65, 
           "qtdEstoqueProd" : 50,   
         }, 
-        
-        
+
     ]

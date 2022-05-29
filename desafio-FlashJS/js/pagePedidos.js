@@ -1,6 +1,7 @@
 import { clientes } from '../database/clientes.js'
 import { produtos } from '../database/produtos.js'
 import { validaFormularios, renderizaUmErro } from '../js/validacaoFormulario.js'
+import { formularioModoExibicao as formularioModoExibicaoProdutos } from '../js/pageProdutos.js'
 import { atualizarQuantidadeNoMenu } from '../js/layout.js'
 
 const inputIdCliente    = document.querySelector('#pedidos input[name="codCliente"]')
@@ -28,6 +29,7 @@ inputCodProduto.addEventListener('keyup', e => procurarProduto(e))
 inputCodProduto.addEventListener('change', e => procurarProduto(e))
 btnSalvarPedido.addEventListener('click', () => finalizarPedido())
 
+atualizarQuantidadeNoMenu('pedidos', pedidos.length)
 
 const procurarNomeCliente = e => {
     let nome = clientes.find(cliente => cliente.codCliente == e.target.value)
@@ -62,30 +64,42 @@ const salvarPedido = () => {
         renderizaUmErro(inputCodProduto, boxFormPedido, `${item.descProduto} já está no pedido!`)
         return marcarUmItemNaTabela(item)
     }
-
-    if (verificarEstoque(item)) {
+    
+    if (verificarEstoque(item) < item.quantidadeProduto) {
         inputQuantidade.value = ''
         inputQuantidade.focus()
-        return alert('error', 'Não há esta quantidade em estoque!<br> Estoque disponível: ' + verificarEstoque(item))
+        return alert('Não há esta quantidade em estoque!<br> Estoque disponível: ' + verificarEstoque(item), 'error')
     }
     // FIM VALIDAÇÕES
 
     pedidos.push(item)
+
+    mudarEstoque('diminuir', item.codProduto, item.quantidadeProduto)
     renderizaItens()
     inputCodProduto.focus()
+}
 
+const mudarEstoque = (operacao, idProduto, valor) => {
+    if(operacao == 'diminuir'){
+        produtos.forEach(item => {
+            if(item.codProduto == idProduto) item.qtdEstoqueProd -= Number(valor)
+        })    
+    }else if(operacao == 'aumentar'){
+        produtos.forEach(item => {
+            if(item.codProduto == idProduto) item.qtdEstoqueProd += Number(valor)
+        }) 
+    }
+    formularioModoExibicaoProdutos()
 }
 
 const verificarEstoque = item => {
-    let tem = false
+    let qtd = 0
     produtos.forEach(element => {
         if (element.codProduto == item.codProduto) {
-            if (Number(item.quantidadeProduto) > Number(element.qtdEstoqueProd)) {
-                tem = element.qtdEstoqueProd
-            }
+            qtd = element.qtdEstoqueProd
         }
     })
-    return tem
+    return qtd
 }
 
 const criaTr = (tabela, itens, id) => {
@@ -143,6 +157,10 @@ const removerItem = id => {
     if (window.confirm(`Remover ${item[0].descProduto} do pedido?`)) {
         pedidos = pedidos.filter(element => Number(element.codProduto) != Number(id))
         renderizaItens()
+        item.forEach(item => {
+            mudarEstoque('aumentar', item.codProduto, item.quantidadeProduto)
+        })
+        
     }
 }
 
@@ -153,7 +171,7 @@ const limparFormularioPedidos = () => {
     inputQuantidade.value = ''
 }
 
-const moedaBrasileira = num => Number(num).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
+export const moedaBrasileira = num => Number(num).toLocaleString('pt-br', { style: 'currency', currency: 'brl' })
 
 const marcarUmItemNaTabela = item => {
     let tr = document.querySelector(`.table-pedido tr[data-id="${item.codProduto}"]`)
@@ -167,7 +185,7 @@ const marcarUmItemNaTabela = item => {
 
 // QUANDO PEDIDO FOR FINALIZADO
 const finalizarPedido = () => {
-    if (pedidos.length < 1) return alert('error', 'Crie um Pedido primeiro!')
+    if (pedidos.length < 1) return alert('Crie um Pedido primeiro!', 'error')
 
     let idUnico = new Date().getTime() * Math.random() * 100000
     let date = new Date()
@@ -193,7 +211,7 @@ const finalizarPedido = () => {
     clone.querySelector('tfoot .total').textContent = moedaBrasileira(total)
     clone.querySelector('.btn-delete').addEventListener('click', e => removerPedido(idUnico, e.target))
 
-    alert('success', 'Pedido salvo com sucesso!')
+    alert('Pedido salvo com sucesso!', 'success')
     document.querySelector('#boxPedidosRealizados').append(clone)
 
     pedidosRealizados.push({ itens: pedidos, id: idUnico, date: date })
@@ -222,7 +240,11 @@ const resetarPedidos = () => {
 
 const removerPedido = (id, button) => {
     if (!window.confirm('Deseja realmente excluir este Pedido?')) return
+    let item = pedidosRealizados.filter(pedido => pedido.id == id)
     button.parentElement.parentElement.remove()
     pedidosRealizados = pedidosRealizados.filter(element => element.id != id)
     atualizarQuantidadeNoMenu('pedidos', pedidosRealizados.length)
+    item[0].itens.forEach(item => {
+        mudarEstoque('aumentar', item.codProduto, item.quantidadeProduto)
+    })
 }
